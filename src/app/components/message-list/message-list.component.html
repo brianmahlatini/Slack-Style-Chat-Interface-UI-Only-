@@ -1,0 +1,71 @@
+﻿<cdk-virtual-scroll-viewport
+  itemSize="92"
+  class="h-full px-4 sm:px-6 py-4"
+  (scrolledIndexChange)="onScrolled($event)"
+>
+  <ng-container *cdkVirtualFor="let message of messages$ | async; trackBy: trackById">
+    <div
+      class="group mb-4 rounded-2xl border border-transparent hover:border-white/10 hover:bg-white/5 transition p-4"
+      [ngClass]="{
+        'border-lime-500': (selectedMessage$ | async)?.id === message.id,
+        'bg-white/5': (selectedMessage$ | async)?.id === message.id
+      }"
+    >
+      <div class="flex items-start gap-3">
+        <div class="h-10 w-10 rounded-2xl bg-ink-700 grid place-items-center text-lg">
+          {{ message.avatar }}
+        </div>
+        <div class="flex-1">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="text-sm font-semibold">{{ message.author }}</span>
+              <span class="text-[11px] text-ink-300">{{ message.timestamp | date: 'shortTime' }}</span>
+              <span *ngIf="message.isPinned" class="text-[10px] px-2 py-0.5 rounded-full bg-lime-500 text-ink-900">Pinned</span>
+            </div>
+            <div class="hidden group-hover:flex gap-2">
+              <button
+                class="text-[10px] px-2 py-1 rounded-lg bg-ink-700/70 hover:bg-ink-600"
+                (click)="togglePinned(message)"
+              >
+                {{ message.isPinned ? 'Unpin' : 'Pin' }}
+              </button>
+              <button
+                class="text-[10px] px-2 py-1 rounded-lg bg-ink-700/70 hover:bg-ink-600"
+                (click)="selectMessage(message)"
+              >
+                Thread
+              </button>
+            </div>
+          </div>
+          <p class="text-sm text-ink-100 mt-2 leading-relaxed">{{ message.content }}</p>
+
+          <div class="flex items-center flex-wrap gap-2 mt-3">
+            <button
+              *ngFor="let reaction of message.reactions"
+              class="text-[11px] px-2 py-1 rounded-full border"
+              [ngClass]="{
+                'border-lime-500': reaction.reacted,
+                'bg-lime-500/20': reaction.reacted
+              }"
+              (click)="toggleReaction(message, reaction.emoji)"
+            >
+              {{ reaction.emoji }} {{ reaction.count }}
+            </button>
+            <div class="flex items-center gap-1">
+              <button
+                *ngFor="let emoji of emojiOptions"
+                class="text-[11px] px-2 py-1 rounded-full border border-white/10 hover:border-lime-500/60"
+                (click)="toggleReaction(message, emoji)"
+              >
+                {{ emoji }}
+              </button>
+            </div>
+            <span *ngIf="message.threadCount > 0" class="text-[11px] text-ink-300">
+              {{ message.threadCount }} replies
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</cdk-virtual-scroll-viewport>

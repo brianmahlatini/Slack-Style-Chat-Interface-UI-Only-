@@ -1,0 +1,19 @@
+﻿<div class="bg-ink-800 border border-white/5 rounded-2xl p-4">
+  <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+    <div class="h-10 w-10 rounded-2xl bg-ink-700 grid place-items-center">🧑‍💻</div>
+    <textarea
+      rows="2"
+      [formControl]="message"
+      (keydown)="onEnter($event)"
+      placeholder="Message the channel"
+      class="flex-1 bg-transparent outline-none text-sm resize-none"
+    ></textarea>
+    <button class="text-xs px-4 py-2 rounded-xl bg-lime-500 text-ink-900 w-full sm:w-auto" (click)="send()">
+      Send
+    </button>
+  </div>
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mt-3 text-[11px] text-ink-300">
+    <span>Press Enter to send · Shift+Enter for newline</span>
+    <span>Markdown · Emoji · Attachments</span>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+app-root {
+  display: block;
+  min-height: 100%;
+}
+
+::selection {
+  background: rgba(168, 255, 96, 0.2);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+@layer utilities {
+  .bg-grid {
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+  }
+}

@@ -1,0 +1,7 @@
+﻿<ng-container *ngIf="typing$ | async as users">
+  <div *ngIf="users.length > 0" class="text-[11px] text-ink-300">
+    <span *ngIf="users.length === 1">{{ users[0] }} is typing…</span>
+    <span *ngIf="users.length === 2">{{ users[0] }} and {{ users[1] }} are typing…</span>
+    <span *ngIf="users.length > 2">{{ users[0] }}, {{ users[1] }}, and {{ users.length - 2 }} more are typing…</span>
+  </div>
+</ng-container>

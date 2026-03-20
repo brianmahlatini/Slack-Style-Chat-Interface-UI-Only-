@@ -1,0 +1,21 @@
+﻿<div class="bg-ink-800/60 border border-white/5 rounded-2xl p-4 shadow-card">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+    <h3 class="text-sm font-semibold">Pinned</h3>
+    <span class="text-[10px] sm:text-[11px] text-ink-300">Keep mission-critical notes visible</span>
+  </div>
+  <div class="space-y-3 max-h-36 sm:max-h-40 overflow-y-auto scrollbar-hide">
+    <div
+      *ngFor="let message of pinnedMessages$ | async"
+      class="text-xs bg-ink-700/60 rounded-xl p-3"
+    >
+      <div class="flex items-center justify-between">
+        <span class="text-ink-200">{{ message.author }}</span>
+        <span class="text-[10px] text-ink-300">{{ message.timestamp | date: 'shortTime' }}</span>
+      </div>
+      <p class="mt-2 text-ink-100">{{ message.content }}</p>
+    </div>
+    <div *ngIf="(pinnedMessages$ | async)?.length === 0" class="text-xs text-ink-300">
+      No pins yet. Pin a message to keep it in sight.
+    </div>
+  </div>
+</div>

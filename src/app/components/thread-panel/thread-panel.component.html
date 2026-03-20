@@ -1,0 +1,52 @@
+﻿<div class="h-full bg-ink-800 border-l border-white/5 flex flex-col">
+  <div class="px-5 py-4 border-b border-white/5 flex items-center justify-between">
+    <div>
+      <h3 class="font-semibold text-sm">Thread</h3>
+      <p class="text-[11px] text-ink-300">Follow-ups and focused replies</p>
+    </div>
+    <button class="text-ink-300 hover:text-white" (click)="close()">✕</button>
+  </div>
+
+  <div class="flex-1 overflow-y-auto scrollbar-hide p-5 space-y-4">
+    <ng-container *ngIf="selectedMessage$ | async as parent; else emptyState">
+      <div class="bg-ink-700/50 rounded-2xl p-4">
+        <div class="flex items-center gap-2">
+          <div class="h-9 w-9 rounded-xl bg-ink-700 grid place-items-center">{{ parent.avatar }}</div>
+          <div>
+            <p class="text-sm font-semibold">{{ parent.author }}</p>
+            <p class="text-[11px] text-ink-300">{{ parent.timestamp | date: 'short' }}</p>
+          </div>
+        </div>
+        <p class="text-sm text-ink-100 mt-3">{{ parent.content }}</p>
+      </div>
+
+      <div *ngFor="let reply of threadMessages$ | async" class="bg-ink-700/40 rounded-2xl p-4">
+        <div class="flex items-center gap-2">
+          <div class="h-8 w-8 rounded-xl bg-ink-700 grid place-items-center">{{ reply.avatar }}</div>
+          <div>
+            <p class="text-xs font-semibold">{{ reply.author }}</p>
+            <p class="text-[10px] text-ink-300">{{ reply.timestamp | date: 'shortTime' }}</p>
+          </div>
+        </div>
+        <p class="text-sm text-ink-100 mt-2">{{ reply.content }}</p>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="p-4 border-t border-white/5">
+    <div class="flex items-center gap-2 bg-ink-700/60 rounded-xl px-3 py-2">
+      <input
+        [formControl]="reply"
+        placeholder="Write a thread reply..."
+        class="bg-transparent outline-none text-sm w-full"
+      />
+      <button class="text-xs px-3 py-1 rounded-lg bg-lime-500 text-ink-900" (click)="send()">Send</button>
+    </div>
+  </div>
+</div>
+
+<ng-template #emptyState>
+  <div class="h-full flex flex-col items-center justify-center text-ink-300 text-sm">
+    Select a message to open its thread.
+  </div>
+</ng-template>
